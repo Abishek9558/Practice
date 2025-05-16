@@ -33,6 +33,7 @@ public class UserInterface {
                 case 7 -> processGetAllVehiclesRequest();
                 case 8 -> addVehicleProcess();
                 case 9 -> removeVehicleProcess();
+                case 10 -> processSaleOrLease();
                 case 99 -> System.out.println("Goodbye!");
                 default -> System.out.println("Invalid choice! Please select a valid option.");
             }
@@ -59,6 +60,7 @@ public class UserInterface {
         System.out.println("7 - List ALL vehicles");
         System.out.println("8 - Add a vehicle");
         System.out.println("9 - Remove a vehicle");
+        System.out.println("10 - Sell or Lease a vehicle");
         System.out.println("99 - Quit");
         System.out.print("Enter your choice: ");
     }
@@ -236,12 +238,12 @@ public class UserInterface {
     }
 
     // sellorlease method
-    private void processCreateContract(Scanner input) {
+    private void processSaleOrLease() {
         ContractFileManager contractFileManager = new ContractFileManager();
 
         System.out.println("Enter VIN of vehicle to sell or lease: ");
-        int vin = input.nextInt();
-        input.nextLine();
+        int vin = scanner.nextInt();
+        scanner.nextLine();
 
         Vehicle selectedVehicle = null;
         for (Vehicle v : dealership.getAllVehicles()) {
@@ -257,26 +259,26 @@ public class UserInterface {
         }
 
         System.out.print("Enter contract date (YYYYMMDD): ");
-        String date = input.nextLine();
+        String date = scanner.nextLine();
 
         System.out.print("Enter customer name: ");
-        String customerName = input.nextLine();
+        String customerName = scanner.nextLine();
 
         System.out.print("Enter customer email: ");
-        String customerEmail = input.nextLine();
+        String customerEmail = scanner.nextLine();
 
         System.out.print("Is this a Sale or Lease? (Enter SALE or LEASE): ");
-        String type = input.nextLine().toUpperCase();
+        String type = scanner.nextLine().toUpperCase();
 
         Contract contract = null;
 
         if (type.equals("SALE")) {
             System.out.println("Is it financing the purchase? (yes/no): ");
-            String userFinanceChoice = input.nextLine().trim().toLowerCase();
+            String userFinanceChoice = scanner.nextLine().trim().toLowerCase();
 
             boolean finance = userFinanceChoice.equals("yes");
 
-            contract = new SalesContract(date, customerName, customerEmail, selectedVehicle, finance);
+            contract = new SalesContract(date, customerName, customerEmail, selectedVehicle);
 
         } else if (type.equals("LEASE")) {
             contract = new LeaseContract(date, customerName, customerEmail, selectedVehicle);

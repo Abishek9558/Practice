@@ -50,8 +50,8 @@ public class ContractFileManager {
                 v.getYear(),
                 v.getMake(),
                 v.getModel(),
-                v.getVehicleType(),
                 v.getColor(),
+                v.getType(),
                 v.getPrice());
 
     }
