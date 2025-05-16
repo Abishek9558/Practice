@@ -5,7 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class ContractFileManager {
-    private final String filePath = "carPractice/src/main/resources/contracts.csv";
+    private final String filePath = "src/main/resources/contracts.csv";
 
     public void saveContract(Contract contract) {
         try (FileWriter writer = new FileWriter(filePath, true)) {
