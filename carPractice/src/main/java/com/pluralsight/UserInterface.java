@@ -1,5 +1,6 @@
 package com.pluralsight;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
@@ -232,5 +233,61 @@ public class UserInterface {
         } catch (NumberFormatException e) {
             System.out.println("Invalid VIN input.");
         }
+    }
+
+    // sellorlease method
+    private void processCreateContract(Scanner input) {
+        ContractFileManager contractFileManager = new ContractFileManager();
+
+        System.out.println("Enter VIN of vehicle to sell or lease: ");
+        int vin = input.nextInt();
+        input.nextLine();
+
+        Vehicle selectedVehicle = null;
+        for (Vehicle v : dealership.getAllVehicles()) {
+            if (v.getVin() == vin) {
+                selectedVehicle = v;
+                break;
+            }
+        }
+
+        if (selectedVehicle == null) {
+            System.out.println("Vehicle not found.");
+            return;
+        }
+
+        System.out.print("Enter contract date (YYYYMMDD): ");
+        String date = input.nextLine();
+
+        System.out.print("Enter customer name: ");
+        String customerName = input.nextLine();
+
+        System.out.print("Enter customer email: ");
+        String customerEmail = input.nextLine();
+
+        System.out.print("Is this a Sale or Lease? (Enter SALE or LEASE): ");
+        String type = input.nextLine().toUpperCase();
+
+        Contract contract = null;
+
+        if (type.equals("SALE")) {
+            System.out.println("Is it financing the purchase? (yes/no): ");
+            String userFinanceChoice = input.nextLine().trim().toLowerCase();
+
+            boolean finance = userFinanceChoice.equals("yes");
+
+            contract = new SalesContract(date, customerName, customerEmail, selectedVehicle, finance);
+
+        } else if (type.equals("LEASE")) {
+            contract = new LeaseContract(date, customerName, customerEmail, selectedVehicle);
+        }
+
+        contractFileManager.saveContract(contract);
+        dealership.removeVehicle(selectedVehicle);
+        DealershipFileManager fileManager = new DealershipFileManager();
+        fileManager.saveDealership(dealership, "src/main/resources/inventory.csv");
+
+
+        System.out.println("Contract created and vehicle removed from inventory.");
     }
 }

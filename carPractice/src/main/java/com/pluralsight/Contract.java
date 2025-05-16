@@ -1,4 +1,4 @@
-package com.pluralsight
+package com.pluralsight;
 
 public abstract class Contract {
    protected String date;
@@ -25,8 +25,25 @@ public abstract class Contract {
         return customerEmail;
     }
 
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public void setCustomerEmail(String customerEmail) {
+        this.customerEmail = customerEmail;
+    }
+
+    public void setVehicleSold(Vehicle vehicleSold) {
+        this.vehicleSold = vehicleSold;
+    }
+
     public Vehicle getVehicleSold() {
         return vehicleSold;
+
     }
     public abstract double getTotalPrice();
     public abstract double getMonthlyPayment();
